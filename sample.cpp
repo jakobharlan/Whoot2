@@ -18,22 +18,22 @@ GLint height = 800;         /* initial window width and height */
 int fbwidth, fbheight;    /* framebuffer width and height (Retina display) */
 
 const std::string strVertexShader(
-    "#version 440\n"
-    "layout(location = 0) in vec3 position;\n"
-    "void  main()\n"
-    "{\n"
-    "   gl_Position = vec4(position, 1.0);\n"
-    "}\n"
+  "#version 440\n"
+  "layout(location = 0) in vec3 position;\n"
+  "void  main()\n"
+  "{\n"
+  "   gl_Position = vec4(position, 1.0);\n"
+  "}\n"
 );
 
 const std::string strFragmentShader(
-    "#version 440\n"
-    "layout(location = 0) out vec4 outputColor;\n"
-    "uniform float time;"
-    "void main()\n"
-    "{\n"
-    "   outputColor = vec4(mod(time,1.0), mod(time+0.333,1.0), mod(time+0.666,1.0), 1.0f);\n"
-    "}\n"
+  "#version 440\n"
+  "layout(location = 0) out vec4 outputColor;\n"
+  "uniform float time;"
+  "void main()\n"
+  "{\n"
+  "   outputColor = vec4(mod(time,1.0), mod(time+0.333,1.0), mod(time+0.666,1.0), 1.0f);\n"
+  "}\n"
 );
 
 /* function where all the actual drawing happens */
@@ -73,15 +73,15 @@ void fbreshape(GLFWwindow *wd, int w, int h)
   fbheight = h;
 
   /* do an orthographic parallel projection with the view volume
-     set to first quadrant, fixed to the initial window dimension */
+   set to first quadrant, fixed to the initial window dimension */
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glOrtho(0.0, (float)fbwidth, 0.0, (float)fbheight, -1.f, 1.f);
 
   /* Tell OpenGL to use the whole window for drawing.
-     Note that we don't resize the view volume, so
-     the viewport will show the whole view volume 
-     shrunk/stretched to fit the current view port. */
+   Note that we don't resize the view volume, so
+   the viewport will show the whole view volume 
+   shrunk/stretched to fit the current view port. */
   glViewport(0, 0, (GLsizei) fbwidth, (GLsizei) fbheight);
 
   init_data();
@@ -114,18 +114,18 @@ void quit(GLFWwindow *wd)
 void kbd(GLFWwindow* wd, int key, int scancode, int action, int mods)
 {
   if (action == GLFW_RELEASE) { // function is called first on GLFW_PRESS.
-    return;
+  return;
   }
   
   switch (key) {
-    case GLFW_KEY_ESCAPE:
-      quit(wd);
-      break;
-    case GLFW_KEY_SPACE:
-      std::cout << "Space" << std::endl;
-      break;
-    default:
-      break;
+  case GLFW_KEY_ESCAPE:
+    quit(wd);
+    break;
+  case GLFW_KEY_SPACE:
+    std::cout << "Space" << std::endl;
+    break;
+  default:
+    break;
   }
   
   return;
@@ -134,11 +134,11 @@ void kbd(GLFWwindow* wd, int key, int scancode, int action, int mods)
 void charhd(GLFWwindow* wd, unsigned int key)
 {
   switch (key) {
-    case 'q':
-      quit(wd);
-      break;
-    default:
-      break;
+  case 'q':
+    quit(wd);
+    break;
+  default:
+    break;
   }
 
   return;
@@ -163,23 +163,23 @@ int main(int argc, char *argv[])
 {
   glfwSetErrorCallback(err);
   if (!glfwInit()) {
-    exit(1);
+  exit(1);
   }
 
   /* create the window and its associated OpenGL context */
   wd = glfwCreateWindow(width, height, "Whoot 2",
-                        NULL, NULL);
+            NULL, NULL);
   if (!wd) {
-    glfwTerminate();
-    exit(1);
+  glfwTerminate();
+  exit(1);
   }
   /* make the window's context the current context */
   glfwMakeContextCurrent(wd);
   GLenum err = glewInit();
   if (GLEW_OK != err)
   {
-    std::cout << "glewInit failed!" << std::endl;
-    std::cout << glewGetErrorString(err) << std::endl;
+  std::cout << "glewInit failed!" << std::endl;
+  std::cout << glewGetErrorString(err) << std::endl;
   }
   glfwGetFramebufferSize(wd, &fbwidth, &fbheight);
 
@@ -204,16 +204,20 @@ int main(int argc, char *argv[])
   initgl();
 
   Shader basic_shader = Shader();
-  basic_shader.createProgramFromStrings(strVertexShader, strFragmentShader);
+
+  std::string vertexPath = "../Whoot2/shader/basic.vert";
+  std::string fragmentPath = "../Whoot2/shader/basic.frag";
+
+  basic_shader.createProgramFromFiles(vertexPath, fragmentPath);
   basic_shader.makeActive();
 
   //-------TEST----------
   float vertices[] = {-0.5f,-0.5f,0.0f,1.0f,
-                      -0.5f,0.5f,0.0f,1.0f,
-                      0.5f,0.5f,0.0f,1.0f,
-                      -0.5f,-0.5f,0.0f,1.0f,
-                      0.5f,0.5f,0.0f,1.0f,
-                      0.5f,-0.5f,0.0f,1.0f};
+            -0.5f,0.5f,0.0f,1.0f,
+            0.5f,0.5f,0.0f,1.0f,
+            -0.5f,-0.5f,0.0f,1.0f,
+            0.5f,0.5f,0.0f,1.0f,
+            0.5f,-0.5f,0.0f,1.0f};
 
   GLuint vao = 0;
   glGenVertexArrays(1,&vao);
@@ -232,9 +236,9 @@ int main(int argc, char *argv[])
 
 
   do {
-    draw(vao, timeLoc);
-    // sleep(60);
-    glfwPollEvents();
+  draw(vao, timeLoc);
+  // sleep(60);
+  glfwPollEvents();
   } while (!glfwWindowShouldClose(wd));
 
   exit(0);
