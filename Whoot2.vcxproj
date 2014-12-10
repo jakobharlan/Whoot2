@@ -85,9 +85,13 @@
   <ItemGroup>
     <ClCompile Include="sample.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\ShaderLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="include\Shader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\ShaderLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

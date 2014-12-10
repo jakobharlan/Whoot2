@@ -17,25 +17,6 @@ GLint width  = 1024;
 GLint height = 800;         /* initial window width and height */
 int fbwidth, fbheight;    /* framebuffer width and height (Retina display) */
 
-const std::string strVertexShader(
-  "#version 440\n"
-  "layout(location = 0) in vec3 position;\n"
-  "void  main()\n"
-  "{\n"
-  "   gl_Position = vec4(position, 1.0);\n"
-  "}\n"
-);
-
-const std::string strFragmentShader(
-  "#version 440\n"
-  "layout(location = 0) out vec4 outputColor;\n"
-  "uniform float time;"
-  "void main()\n"
-  "{\n"
-  "   outputColor = vec4(mod(time,1.0), mod(time+0.333,1.0), mod(time+0.666,1.0), 1.0f);\n"
-  "}\n"
-);
-
 /* function where all the actual drawing happens */
 void draw(GLuint vao, GLuint time_location)
 {
@@ -203,21 +184,20 @@ int main(int argc, char *argv[])
 
   initgl();
 
-  Shader basic_shader = Shader();
-
   std::string vertexPath = "../Whoot2/shader/basic.vert";
   std::string fragmentPath = "../Whoot2/shader/basic.frag";
 
-  basic_shader.createProgramFromFiles(vertexPath, fragmentPath);
+  Shader basic_shader = Shader(vertexPath, fragmentPath);
   basic_shader.makeActive();
 
+
   //-------TEST----------
-  float vertices[] = {-0.5f,-0.5f,0.0f,1.0f,
-            -0.5f,0.5f,0.0f,1.0f,
-            0.5f,0.5f,0.0f,1.0f,
-            -0.5f,-0.5f,0.0f,1.0f,
-            0.5f,0.5f,0.0f,1.0f,
-            0.5f,-0.5f,0.0f,1.0f};
+  float vertices[] = {-0.98f,-0.98f,0.0f,1.0f,
+            -0.98f,0.98f,0.0f,1.0f,
+            0.98f,0.98f,0.0f,1.0f,
+            -0.98f,-0.98f,0.0f,1.0f,
+            0.98f,0.98f,0.0f,1.0f,
+            0.98f,-0.98f,0.0f,1.0f};
 
   GLuint vao = 0;
   glGenVertexArrays(1,&vao);

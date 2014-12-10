@@ -8,14 +8,11 @@
 class Shader {
 public:
   Shader();
-  void createProgramFromStrings(std::string const& v, std::string const& f);
-  void createProgramFromFiles(std::string const& v, std::string const& f);
-  void makeActive();
-  GLuint getUniformLocation(std::string const& name);
+  Shader(std::string const& v, std::string const& f);
+  void makeActive() const;
+  GLuint getUniformLocation(std::string const& name) const;
     
 private:
-  GLuint loadShader(GLenum type, std::string const& s);
-
   GLuint m_shaderProgramm;
 };
 
