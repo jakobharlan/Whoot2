@@ -3,15 +3,35 @@
 
 #include "GL/glew.h"
 
+#include <vector>
 
-class ParticlePass {
+#include "shader.h"
+
+struct Position{
+	float x;
+	float y;
+	float z;
+};
+
+class ParticlePass{
 
 public:
   ParticlePass();
   ParticlePass(unsigned numParticles);
 
+  void draw();
+
 private:
-  unsigned m_numParticles;
+  void init_data();
+
+  unsigned m_num_particles;
+
+  std::vector<Position> m_particle_positions;
+
+  GLuint m_vao;
+  GLuint m_vbo;
+
+  Shader m_shader;
 };
 
 

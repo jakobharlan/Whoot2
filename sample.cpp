@@ -192,6 +192,7 @@ int main(int argc, char *argv[])
     glClear(GL_COLOR_BUFFER_BIT);
 
     myFSP.draw();
+    myPP.draw();
     
     /* GLFW is ALWAYS double buffered; will call glFlush() */
     glfwSwapBuffers(wd);

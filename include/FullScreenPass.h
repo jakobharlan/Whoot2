@@ -15,8 +15,8 @@ public:
 private:
   void init_quad();
 
-  GLuint m_quat_vbo;
-  GLuint m_quat_vao;
+  GLuint m_vao;
+  GLuint m_vbo;
   GLuint m_time_uniform_location;
 
   Shader m_shader;
