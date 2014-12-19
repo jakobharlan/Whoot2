@@ -84,6 +84,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="sample.cpp" />
+    <ClCompile Include="src\FullScreenPass.cpp" />
+    <ClCompile Include="src\ParticlePass.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\ShaderLoader.cpp" />
   </ItemGroup>
@@ -91,6 +93,8 @@
     <Text Include="include\Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\FullScreenPass.h" />
+    <ClInclude Include="include\ParticlePass.h" />
     <ClInclude Include="include\ShaderLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

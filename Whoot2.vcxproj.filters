@@ -27,6 +27,12 @@
     <ClCompile Include="src\ShaderLoader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="src\ParticlePass.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FullScreenPass.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="include\Shader.h">
@@ -35,6 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\ShaderLoader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ParticlePass.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FullScreenPass.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

@@ -10,7 +10,8 @@
 #include <vector>
 
 #include "Shader.h"
-
+#include "ParticlePass.h"
+#include "FullScreenPass.h"
 
 GLFWwindow* wd;           /* window desciptor/handle */
 GLint width  = 1024;
@@ -180,45 +181,22 @@ int main(int argc, char *argv[])
   glfwSetKeyCallback(wd, kbd);      // general keyboard input
   glfwSetCharCallback(wd, charhd);  // simpler specific character handling
 
-  /* --- draw line --- */
 
   initgl();
 
-  std::string vertexPath = "../Whoot2/shader/basic.vert";
-  std::string fragmentPath = "../Whoot2/shader/basic.frag";
-
-  Shader basic_shader = Shader(vertexPath, fragmentPath);
-  basic_shader.makeActive();
-
-
-  //-------TEST----------
-  float vertices[] = {-0.98f,-0.98f,0.0f,1.0f,
-            -0.98f,0.98f,0.0f,1.0f,
-            0.98f,0.98f,0.0f,1.0f,
-            -0.98f,-0.98f,0.0f,1.0f,
-            0.98f,0.98f,0.0f,1.0f,
-            0.98f,-0.98f,0.0f,1.0f};
-
-  GLuint vao = 0;
-  glGenVertexArrays(1,&vao);
-  glBindVertexArray(vao);
-
-  GLuint vbo = 0;
-  glGenBuffers(1, &vbo);
-  glBindBuffer(GL_ARRAY_BUFFER,vbo);
-  glBufferData(GL_ARRAY_BUFFER,6*4* sizeof(float),vertices,GL_STATIC_DRAW);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,0,0);
-  glBindVertexArray(0);
-
-  GLuint timeLoc = basic_shader.getUniformLocation("time");
-  //-------TEST----------
-
-
+  FullScreenPass myFSP = FullScreenPass();
+  ParticlePass myPP = ParticlePass(10000);
+  
   do {
-  draw(vao, timeLoc);
-  // sleep(60);
-  glfwPollEvents();
+    /* color buffer must be cleared each time */
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    myFSP.draw();
+    
+    /* GLFW is ALWAYS double buffered; will call glFlush() */
+    glfwSwapBuffers(wd);
+    
+    glfwPollEvents();
   } while (!glfwWindowShouldClose(wd));
 
   exit(0);
