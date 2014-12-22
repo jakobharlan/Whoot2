@@ -10,7 +10,7 @@ class FullScreenPass {
 public:
   FullScreenPass();
 
-  void draw();
+  void draw() const;
 
 private:
   void init_quad();

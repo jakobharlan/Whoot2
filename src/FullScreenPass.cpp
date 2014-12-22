@@ -12,7 +12,7 @@ m_shader("../Whoot2/shader/basic.vert", "../Whoot2/shader/basic.frag")
 }
 
 
-void FullScreenPass::draw()
+void FullScreenPass::draw() const
 {
   // float time = static_cast<float>(glfwGetTime());
   glUniform1f(m_time_uniform_location, 0.0);

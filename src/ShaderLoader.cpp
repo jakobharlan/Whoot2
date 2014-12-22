@@ -11,12 +11,13 @@ GLuint ShaderLoader::createProgramFromStrings(std::string const& v, std::string 
   GLuint fsHandle = loadShader(GL_FRAGMENT_SHADER, f);
   glAttachShader(id, vsHandle);
   glAttachShader(id, fsHandle);
-  // schedule for deletion
-  glDeleteShader(vsHandle);
-  glDeleteShader(fsHandle);
 
   glLinkProgram(id);
   GLint successful;
+
+  // schedule for deletion
+  glDeleteShader(vsHandle);
+  glDeleteShader(fsHandle);
 
   glGetProgramiv(id, GL_LINK_STATUS, &successful);
   if (!successful) {
@@ -35,39 +36,33 @@ GLuint ShaderLoader::createProgramFromStrings(std::string const& v, std::string 
   }
 }
 
-GLuint ShaderLoader::createProgramFromFiles(std::string const& v, std::string const& f)
+GLuint ShaderLoader::createProgramFromFiles(std::string const& v_path, std::string const& f_path)
 {
-  std::ifstream in_v(v, std::ios::in | std::ios::binary);
-  std::ifstream in_f(f, std::ios::in | std::ios::binary);
-  std::string vertex_contents;
-  std::string fragment_contents;
+  std::string vertex_contents = load_file(v_path);
+  std::string fragment_contents = load_file(f_path);
   
-  if(in_v)
-  {
-    in_v.seekg(0, std::ios::end);
-    vertex_contents.resize(in_v.tellg());
-    in_v.seekg(0, std::ios::beg);
-    in_v.read(&vertex_contents[0], vertex_contents.size());
-    in_v.close();
-  }else{
-    std::cout << "failed to open file: " << v << std::endl;
-  }
-  if(in_f)
-  {
-    in_f.seekg(0, std::ios::end);
-    fragment_contents.resize(in_f.tellg());
-    in_f.seekg(0, std::ios::beg);
-    in_f.read(&fragment_contents[0], fragment_contents.size());
-    in_f.close();
-  }else{
-    std::cout << "failed to open file: " << f << std::endl;
-  }
-
   return createProgramFromStrings(vertex_contents, fragment_contents);
-
 }
 
-// Private:
+std::string const ShaderLoader::load_file(std::string const& filepath)
+{
+  std::ifstream in(filepath, std::ios::in | std::ios::binary);
+  std::string file_contents;
+
+  if(in)
+  {
+    in.seekg(0, std::ios::end);
+    file_contents.resize(in.tellg());
+    in.seekg(0, std::ios::beg);
+    in.read(&file_contents[0], file_contents.size());
+    in.close();
+  }else{
+    std::cout << "failed to open file: " << filepath << std::endl;
+  }
+
+  return file_contents;
+}
+
 GLuint ShaderLoader::loadShader(GLenum type, std::string const& s){
   GLuint id = glCreateShader(type);
   const char* source = s.c_str();

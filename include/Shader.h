@@ -12,8 +12,10 @@ public:
   void makeActive() const;
   GLuint getUniformLocation(std::string const& name) const;
     
+  void set_shader_program(GLuint shader_program);
+
 private:
-  GLuint m_shaderProgramm;
+  GLuint m_shader_program;
 };
 
 

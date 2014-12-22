@@ -28,10 +28,18 @@ private:
 
   std::vector<Position> m_particle_positions;
 
-  GLuint m_vao;
-  GLuint m_vbo;
+  // flip value to switch between buffers
+  bool m_flip;
 
-  Shader m_shader;
+  // two vbo`s and vao`s, alternating for feedback and for drawing
+  GLuint m_vao_a;
+  GLuint m_vao_b;
+
+  GLuint m_vbo_a;
+  GLuint m_vbo_b;
+
+  GLuint m_simulation_shader_program;
+  Shader m_render_shader;
 };
 
 

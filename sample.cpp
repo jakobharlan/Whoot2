@@ -8,10 +8,14 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <vector>
+#include <chrono>
+#include <thread>
 
 #include "Shader.h"
 #include "ParticlePass.h"
 #include "FullScreenPass.h"
+#include "ShaderLoader.h"
+
 
 GLFWwindow* wd;           /* window desciptor/handle */
 GLint width  = 1024;
@@ -181,16 +185,22 @@ int main(int argc, char *argv[])
   glfwSetKeyCallback(wd, kbd);      // general keyboard input
   glfwSetCharCallback(wd, charhd);  // simpler specific character handling
 
-
   initgl();
-
+  
   FullScreenPass myFSP = FullScreenPass();
   ParticlePass myPP = ParticlePass(10000);
-  
+
+  typedef std::chrono::high_resolution_clock Clock;
+  typedef std::chrono::milliseconds milliseconds;
+
+  Clock::time_point currentTime, newTime;
+  milliseconds frameTime;
+
   do {
+    currentTime = Clock::now();
+    
     /* color buffer must be cleared each time */
     glClear(GL_COLOR_BUFFER_BIT);
-
     myFSP.draw();
     myPP.draw();
     
@@ -198,6 +208,14 @@ int main(int argc, char *argv[])
     glfwSwapBuffers(wd);
     
     glfwPollEvents();
+
+    newTime = Clock::now();
+    frameTime = std::chrono::duration_cast<milliseconds>(newTime - currentTime);
+    if(frameTime.count() < 16)
+    {
+      std::this_thread::sleep_for(milliseconds(16 - frameTime.count()));
+    }
+              
   } while (!glfwWindowShouldClose(wd));
 
   exit(0);
